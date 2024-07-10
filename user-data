@@ -11,6 +11,7 @@
 #onpremGrubLine: net.ifnames=0 biosdevname=0 ip=((C))::((F)):((E)):((A)):eth0:none:((G)):((H)) autoinstall ds=nocloud-net\;s=https://git-ops.sherweb.com/linux/ubuntu/-/raw/main/Autoinstall/((A))/ quiet
 #========================Server Configuration========================================#
 autoinstall:
+  user-data:
   version: 1
   apt:
     disable_components: []
@@ -245,3 +246,4 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
+
