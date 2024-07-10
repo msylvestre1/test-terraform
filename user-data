@@ -1,17 +1,6 @@
 #cloud-config
-# Ubuntu 22.04 Autoinstall template file
-#
-#   Created on        : 2024-02-22
-#   Author(s)         : Alassane Maiga
-#
-#   Last Modification : 2024-03-04
-#   Author(s)         : Alassane Maiga
-#
-#==============================Grub boot option for onPrem deploymentLine=========================================#
-#onpremGrubLine: net.ifnames=0 biosdevname=0 ip=((C))::((F)):((E)):((A)):eth0:none:((G)):((H)) autoinstall ds=nocloud-net\;s=https://git-ops.sherweb.com/linux/ubuntu/-/raw/main/Autoinstall/((A))/ quiet
-#========================Server Configuration========================================#
+onpremGrubLine: net.ifnames=0 biosdevname=0 ip=10.4.0.28::10.4.0.1:255.255.255.0:tf-ubuntu2204:eth0:none:10.4.0.11:10.80.4.4 autoinstall ds=nocloud-net\;s=https://github.com/msylvestre1/test-terraform/blob/main/ quiet
 autoinstall:
-  user-data:
   version: 1
   apt:
     disable_components: []
@@ -20,13 +9,15 @@ autoinstall:
     mirror-selection:
       primary:
         - country-mirror
-        - arches: &id001
+        - arches:
             - amd64
             - i386
           uri: http://archive.ubuntu.com/ubuntu/
     preserve_sources_list: false
     security:
-      - arches: *id001
+      - arches:
+          - amd64
+          - i386
         uri: http://security.ubuntu.com/ubuntu/
   codecs:
     install: false
@@ -34,25 +25,22 @@ autoinstall:
     install: false
   keyboard:
     layout: us
-    toggle: null
+    toggle:
     variant: ""
   locale: en_US.UTF-8
   source:
-    id: ubuntu-server
+    id: ubuntu-server-minimal
     search_drivers: false
   ssh:
     allow-pw: true
     authorized-keys: []
     install-server: true
-  #========================Kernel Select========================================#
   kernel:
-    package: linux-generic
+    package: linux-server
   oem:
     install: auto
-  #========================Partitioning Scheme========================================#
   storage:
     config:
-      #Create disks
       - ptable: gpt
         path: /dev/sda
         wipe: superblock-recursive
@@ -61,8 +49,6 @@ autoinstall:
         grub_device: false
         id: disk-sda
         type: disk
-
-      #Partitioning
       - device: disk-sda
         size: 1G
         wipe: superblock
@@ -70,64 +56,57 @@ autoinstall:
         number: 1
         preserve: false
         grub_device: true
+        path: /dev/sda1
         id: part-efi
         type: partition
+      - fstype: fat32
+        volume: part-efi
+        preserve: false
+        id: format-efi
+        type: format
       - device: disk-sda
         size: 1G
         wipe: superblock
         number: 2
         preserve: false
         grub_device: false
+        path: /dev/sda2
         id: part-boot
         type: partition
-      - device: disk-sda
-        id: part_swap
-        size: 4G
-        preserve: false
-        wipe: superblock
-        number: 3
-        grub_device: false
-        type: partition
-        flag: swap
-
-      #Format partitions
-      - fstype: fat32
-        volume: part-efi
-        preserve: false
-        id: format-efi
-        type: format
       - fstype: ext4
         volume: part-boot
         preserve: false
         id: format-boot
         type: format
+      - path: /dev/sda3
+        id: part_swap
+        size: 4G
+        preserve: false
+        wipe: superblock
+        device: disk-sda
+        number: 3
+        grub_device: false
+        type: partition
+        flag: swap
       - volume: part_swap
         fstype: swap
         id: format-swap
         type: format
-
-      #LVM Section
-
-      ## LVM Physical Volumes
-      ###Physical disk 0
       - device: disk-sda
         size: -1
         wipe: superblock
         number: 4
         preserve: false
         grub_device: false
-        id: part_lvmpv00
+        path: /dev/sda4
+        id: part_lvmpv
         type: partition
-      ## LVM Volume Groups
-      ###Volume Group 00
       - name: lvm_vg00
         devices:
-          - part_lvmpv00
+          - part_lvmpv
         preserve: false
         id: lvm_vg00
         type: lvm_volgroup
-      ## LVM Logical Volumes
-      ### lv /home
       - name: lvm_lv-home
         volgroup: lvm_vg00
         size: 4G
@@ -141,7 +120,6 @@ autoinstall:
         preserve: false
         id: format-home
         type: format
-      ### lv /tmp
       - name: lvm_lv-tmp
         volgroup: lvm_vg00
         size: 8G
@@ -155,7 +133,6 @@ autoinstall:
         preserve: false
         id: format-tmp
         type: format
-      ### lv /var
       - name: lvm_lv-var
         volgroup: lvm_vg00
         size: 15G
@@ -169,7 +146,6 @@ autoinstall:
         preserve: false
         id: format-var
         type: format
-      ### lv /var/log
       - name: lvm_lv-varlog
         volgroup: lvm_vg00
         size: 15G
@@ -183,7 +159,6 @@ autoinstall:
         preserve: false
         id: format-varlog
         type: format
-      ### lv /var/log/audit
       - name: lvm_lv-varlogaudit
         volgroup: lvm_vg00
         size: 2G
@@ -197,7 +172,6 @@ autoinstall:
         preserve: false
         id: format-varlogaudit
         type: format
-      ### lv /
       - name: lvm_lv-root
         volgroup: lvm_vg00
         size: -1
@@ -211,7 +185,6 @@ autoinstall:
         preserve: false
         id: format-root
         type: format
-      #-----Mounting Partitions on sda---#
       - path: /
         device: format-root
         id: mount-root
@@ -222,13 +195,13 @@ autoinstall:
         type: mount
       - path: /boot/efi
         device: format-efi
-        options: "uid=0,gid=0,umask=0077"
+        options: uid=0,gid=0,umask=0077
         id: mount-efi
         type: mount
       - path: /home
         device: format-home
         id: mount-home
-        options: "nodev,noexec,auto,nouser,async,acl"
+        options: nodev,noexec,auto,nouser,async,acl
         type: mount
       - path: /tmp
         device: format-tmp
@@ -246,4 +219,121 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
+  user-data:
+    hostname: tf-ubuntu2204
+    prefer_fqdn_over_hostname: false
+    timezone: US/Eastern
+    packages:
+      - adcli
+      - acl
+      - ca-certificates
+      - chrony
+      - ipset
+      - iptables-persistent
+      - jq
+      - less
+      - libsnmp-dev
+      - man-db
+      - net-tools
+      - realmd
+      - sendmail
+      - snmp
+      - snmp-mibs-downloader
+      - snmpd
+      - sssd-ad
+      - sssd-tools
+      - systemd-cron
+      - ubuntu-advantage-tools
+      - unzip
+      - vim
+    package_update: true
+    package_upgrade: true
+    users:
+      - name: swadm
+        groups: adm, sudo
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+        lock_passwd: false
+        hashed_passwd: $6$rounds=1000$.jwfCEzaAQGFrTmq$GnMKQHMqOBRgluH2o2Lo9KpKBpNlA6vp8yOy5gMOB344xdXLbR9c6lVlWNN436cahbnPCuMS/RuhtuL7p6Lte1
+    write_files:
+      - path: /etc/snmp/snmpd.conf.d/PRTG.conf
+        permissions: "600"
+        owner: root:root
+        content: |
+          # Listening on the private interface:
+          agentaddress 10.4.0.28
 
+          # Access Rules
+          rocommunity roprtg 199.244.76.65
+      - path: /opt/sherweb/scripts/Onboard-ServerIntoTenable.sh
+        permissions: "0750"
+        owner: root:root
+        content: |
+          curl -H 'X-Key: 2ba8e580279efb992dd9fb19902f4202dd581153da7c678086dd4a892eff5c98' 'https://sensor.cloud.tenable.com/install/agent?groups=CloudOps' | bash
+      - path: /opt/sherweb/scripts/Create-SnmpUsers.sh
+        permissions: "0750"
+        owner: root:root
+        content: |
+          #!/bin/bash
+          # Ensure the script is run as root
+          if [[ $EUID -ne 0 ]]; then
+            echo "This script must be run as root"
+            exit 1
+          fi
+
+          # make sure necessary packages are here
+          apt-get update
+          apt-get install -y snmp snmpd snmp-mibs-downloader
+
+          # Default values
+          DEFAULT_USERNAME="roprtg"
+          DEFAULT_ACCESS_LEVEL="ro"  # 'ro' for read-only, 'rw' for read-write
+
+          # Assign arguments with default fallback
+          USERNAME=${1:-$DEFAULT_USERNAME}
+          ACCESS_LEVEL=${2:-$DEFAULT_ACCESS_LEVEL}
+
+          # Generate random passwords
+          AUTH_PASS=$(openssl rand -hex 16)
+          PRIV_PASS=$(openssl rand -hex 16)
+
+          # Define SNMPv3 user creation options based on access level
+          if [ "$ACCESS_LEVEL" == "rw" ]; then
+              USER_OPTION="-rw"
+          else
+              USER_OPTION="-ro"
+          fi
+          #stopping snmp daemon
+          systemctl stop snmpd
+          # Create SNMPv3 user
+          net-snmp-config --create-snmpv3-user $USER_OPTION -A $AUTH_PASS -X $PRIV_PASS -a SHA -x AES $USERNAME
+
+          # Output the results
+          echo "User created: $USERNAME"
+          echo "Access Level: $ACCESS_LEVEL"
+          echo "Authentication Password: $AUTH_PASS"
+          echo "Privacy Password: $PRIV_PASS"
+          echo "Privacy not configured (read-only access)."
+          systemctl start snmpd
+
+          # Warning about security
+          echo "WARNING: Passwords displayed on screen. Ensure this information is secured."
+    network:
+      ethernets:
+        eth0:
+          addresses:
+            - 10.4.0.28/24
+          nameservers:
+            addresses:
+              - 10.4.0.11
+              - 10.80.4.4
+          routes:
+            - to: default
+              via: 10.4.0.1
+      version: 2
+    runcmd:
+      - wget -O /opt/sherweb/scripts/ubuntu-main.tar.gz https://git-ops.sherweb.com/linux/ubuntu/-/archive/main/ubuntu-main.tar.gz
+      - tar xzf /opt/sherweb/scripts/ubuntu-main.tar.gz -C /opt/sherweb/scripts/
+      - rm -f /opt/sherweb/scripts/ubuntu-main.tar.gz
+      - chmod +x -R /opt/sherweb/scripts/ubuntu-main/Scripts/
+      - /opt/sherweb/scripts/ubuntu-main/Scripts/New-BaseServerConfig.sh --domain  -SispunCr
