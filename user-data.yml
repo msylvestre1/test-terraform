@@ -1,0 +1,248 @@
+#cloud-config
+# Ubuntu 22.04 Autoinstall template file
+#
+#   Created on        : 2024-02-22
+#   Author(s)         : Alassane Maiga
+#
+#   Last Modification : 2024-03-04
+#   Author(s)         : Alassane Maiga
+#
+#==============================Grub boot option for onPrem deploymentLine=========================================#
+#onpremGrubLine: net.ifnames=0 biosdevname=0 ip=((C))::((F)):((E)):((A)):eth0:none:((G)):((H)) autoinstall ds=nocloud-net\;s=https://git-ops.sherweb.com/linux/ubuntu/-/raw/main/Autoinstall/((A))/ quiet
+#========================Server Configuration========================================#
+autoinstall:
+  version: 1
+  apt:
+    disable_components: []
+    fallback: abort
+    geoip: true
+    mirror-selection:
+      primary:
+        - country-mirror
+        - arches: &id001
+            - amd64
+            - i386
+          uri: http://archive.ubuntu.com/ubuntu/
+    preserve_sources_list: false
+    security:
+      - arches: *id001
+        uri: http://security.ubuntu.com/ubuntu/
+  codecs:
+    install: false
+  drivers:
+    install: false
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ""
+  locale: en_US.UTF-8
+  source:
+    id: ubuntu-server
+    search_drivers: false
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  #========================Kernel Select========================================#
+  kernel:
+    package: linux-generic
+  oem:
+    install: auto
+  #========================Partitioning Scheme========================================#
+  storage:
+    config:
+      #Create disks
+      - ptable: gpt
+        path: /dev/sda
+        wipe: superblock-recursive
+        preserve: false
+        name: ""
+        grub_device: false
+        id: disk-sda
+        type: disk
+
+      #Partitioning
+      - device: disk-sda
+        size: 1G
+        wipe: superblock
+        flag: boot
+        number: 1
+        preserve: false
+        grub_device: true
+        id: part-efi
+        type: partition
+      - device: disk-sda
+        size: 1G
+        wipe: superblock
+        number: 2
+        preserve: false
+        grub_device: false
+        id: part-boot
+        type: partition
+      - device: disk-sda
+        id: part_swap
+        size: 4G
+        preserve: false
+        wipe: superblock
+        number: 3
+        grub_device: false
+        type: partition
+        flag: swap
+
+      #Format partitions
+      - fstype: fat32
+        volume: part-efi
+        preserve: false
+        id: format-efi
+        type: format
+      - fstype: ext4
+        volume: part-boot
+        preserve: false
+        id: format-boot
+        type: format
+      - volume: part_swap
+        fstype: swap
+        id: format-swap
+        type: format
+
+      #LVM Section
+
+      ## LVM Physical Volumes
+      ###Physical disk 0
+      - device: disk-sda
+        size: -1
+        wipe: superblock
+        number: 4
+        preserve: false
+        grub_device: false
+        id: part_lvmpv00
+        type: partition
+      ## LVM Volume Groups
+      ###Volume Group 00
+      - name: lvm_vg00
+        devices:
+          - part_lvmpv00
+        preserve: false
+        id: lvm_vg00
+        type: lvm_volgroup
+      ## LVM Logical Volumes
+      ### lv /home
+      - name: lvm_lv-home
+        volgroup: lvm_vg00
+        size: 4G
+        wipe: superblock
+        preserve: false
+        path: /dev/lvm_vg00/lvm_lv-home
+        id: lvm_part-home
+        type: lvm_partition
+      - fstype: ext4
+        volume: lvm_part-home
+        preserve: false
+        id: format-home
+        type: format
+      ### lv /tmp
+      - name: lvm_lv-tmp
+        volgroup: lvm_vg00
+        size: 8G
+        wipe: superblock
+        preserve: false
+        path: /dev/lvm_vg00/lvm_lv-tmp
+        id: lvm_part-tmp
+        type: lvm_partition
+      - fstype: ext4
+        volume: lvm_part-tmp
+        preserve: false
+        id: format-tmp
+        type: format
+      ### lv /var
+      - name: lvm_lv-var
+        volgroup: lvm_vg00
+        size: 15G
+        wipe: superblock
+        preserve: false
+        path: /dev/lvm_vg00/lvm_lv-var
+        id: lvm_part-var
+        type: lvm_partition
+      - fstype: ext4
+        volume: lvm_part-var
+        preserve: false
+        id: format-var
+        type: format
+      ### lv /var/log
+      - name: lvm_lv-varlog
+        volgroup: lvm_vg00
+        size: 15G
+        wipe: superblock
+        preserve: false
+        path: /dev/lvm_vg00/lvm_lv-varlog
+        id: lvm_part-varlog
+        type: lvm_partition
+      - fstype: ext4
+        volume: lvm_part-varlog
+        preserve: false
+        id: format-varlog
+        type: format
+      ### lv /var/log/audit
+      - name: lvm_lv-varlogaudit
+        volgroup: lvm_vg00
+        size: 2G
+        wipe: superblock
+        preserve: false
+        path: /dev/lvm_vg00/lvm_lv-varlogaudit
+        id: lvm_part-varlogaudit
+        type: lvm_partition
+      - fstype: ext4
+        volume: lvm_part-varlogaudit
+        preserve: false
+        id: format-varlogaudit
+        type: format
+      ### lv /
+      - name: lvm_lv-root
+        volgroup: lvm_vg00
+        size: -1
+        wipe: superblock
+        preserve: false
+        path: /dev/lvm_vg00/lvm_lv-root
+        id: lvm_part-root
+        type: lvm_partition
+      - fstype: ext4
+        volume: lvm_part-root
+        preserve: false
+        id: format-root
+        type: format
+      #-----Mounting Partitions on sda---#
+      - path: /
+        device: format-root
+        id: mount-root
+        type: mount
+      - path: /boot
+        device: format-boot
+        id: mount-boot
+        type: mount
+      - path: /boot/efi
+        device: format-efi
+        options: "uid=0,gid=0,umask=0077"
+        id: mount-efi
+        type: mount
+      - path: /home
+        device: format-home
+        id: mount-home
+        options: "nodev,noexec,auto,nouser,async,acl"
+        type: mount
+      - path: /tmp
+        device: format-tmp
+        id: mount-tmp
+        type: mount
+      - path: /var
+        device: format-var
+        id: mount-var
+        type: mount
+      - path: /var/log
+        device: format-varlog
+        id: mount-varlog
+        type: mount
+      - path: /var/log/audit
+        device: format-varlogaudit
+        id: mount-varlogaudit
+        type: mount
+
