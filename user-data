@@ -245,4 +245,8 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
+user-data:
+  runcmd:
+    - dpkg-reconfigure cloud-init
+
 
