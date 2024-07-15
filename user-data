@@ -245,3 +245,14 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
+
+  user-data:
+    prefer_fqdn_over_hostname: true
+    timezone: US/Eastern
+    
+  runcmd:
+    - echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+    - dpkg-reconfigure -f noninteractive cloud-init
+    - cloud-init clean –logs
+    - history -c
+    - shutdown -h now
