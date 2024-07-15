@@ -245,16 +245,3 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
-
-  user-data:
-    #=============Optional Second drive setup==============================#
-    # bootcmd:
-    #   - pvcreate /dev/sdb # Setup LVM physical volume using second disk
-    #   - vgcreate <VGNAME> /dev/sdb # create LVM volume group
-    #   - lvcreate -l 100%VG -n <LGNAME> <VGNAME> # create logical volume on previous volume group
-    #   - mkdir -p /path/to/mount #mount path of second drive please choose
-    #   - mkfs.ext4 /path/to/mount #create a ext4 partition modify as prefered
-    #   - echo '/dev/VGNAME/LGNAME /path/to/mount ext4 defaults 0 2' >> /etc/fstab # mount options in /etc/fstab, modify as needed
-    #   - mount /path/to/mount
-    prefer_fqdn_over_hostname: true
-    timezone: US/Eastern
