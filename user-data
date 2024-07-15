@@ -258,11 +258,16 @@ autoinstall:
     #   - mount /path/to/mount
     prefer_fqdn_over_hostname: true
     timezone: US/Eastern
-
+    write_files:
+      - path: /root/init-script.sh
+        permissions: "700"
+        owner: root:root
+        content: |
+          #!/bin/bash
+          echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+          dpkg-reconfigure -f noninteractive cloud-init
+          cloud-init clean –-logs --seed
+          history -c
+          shutdown -h now
     runcmd:
-      - echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
-      - dpkg-reconfigure -f noninteractive cloud-init
-      - cloud-init clean –-logs --seed
-      - history -c
-
-
+      - /root/init-script.sh
