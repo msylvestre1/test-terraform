@@ -268,6 +268,6 @@ autoinstall:
           rm -rf /var/lib/cloud/
           rm /root/init-script.sh
           history -c
-          shutdown -h now
+          #shutdown -h now
     runcmd:
       - /root/init-script.sh
