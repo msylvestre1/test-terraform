@@ -44,8 +44,8 @@ autoinstall:
     authorized-keys: []
     install-server: true
   #========================Kernel Select========================================#
-  #kernel:
-  #  package: linux-generic
+  kernel:
+    package: linux-generic
   oem:
     install: auto
   #========================Partitioning Scheme========================================#
@@ -245,30 +245,3 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
-
-  user-data:
-    #=============Optional Second drive setup==============================#
-    # bootcmd:
-    #   - pvcreate /dev/sdb # Setup LVM physical volume using second disk
-    #   - vgcreate <VGNAME> /dev/sdb # create LVM volume group
-    #   - lvcreate -l 100%VG -n <LGNAME> <VGNAME> # create logical volume on previous volume group
-    #   - mkdir -p /path/to/mount #mount path of second drive please choose
-    #   - mkfs.ext4 /path/to/mount #create a ext4 partition modify as prefered
-    #   - echo '/dev/VGNAME/LGNAME /path/to/mount ext4 defaults 0 2' >> /etc/fstab # mount options in /etc/fstab, modify as needed
-    #   - mount /path/to/mount
-    prefer_fqdn_over_hostname: true
-    timezone: US/Eastern
-    write_files:
-      - path: /root/init-script.sh
-        permissions: "700"
-        owner: root:root
-        content: |
-          #!/bin/bash
-          echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
-          dpkg-reconfigure -f noninteractive cloud-init
-          cloud-init clean –-logs --seed
-          rm /root/init-script.sh
-          history -c
-          shutdown -h now
-    runcmd:
-      - /root/init-script.sh
