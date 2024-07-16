@@ -44,8 +44,8 @@ autoinstall:
     authorized-keys: []
     install-server: true
   #========================Kernel Select========================================#
-  kernel:
-    package: linux-generic
+  #kernel:
+  #  package: linux-generic
   oem:
     install: auto
   #========================Partitioning Scheme========================================#
@@ -245,3 +245,29 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
+
+  user-data:
+	users:
+	  - name: msylvestre
+		groups: adm, sudo
+		sudo: ALL=(ALL) NOPASSWD:ALL
+		shell: /bin/bash
+		lock_passwd: false
+		hashed_passwd: "$6$1ubidoi0PgD48vUG$8fyy4viKqvE4sP58KCqv7Fpd.Oz3SWPUdfTqF7Gu7rrf9hdyNXY4jDQoV1zmFyQbNhxvfMOM9w9LfLy3cG5zF1"  
+    prefer_fqdn_over_hostname: true
+    timezone: US/Eastern
+    write_files:
+      - path: /root/init-script.sh
+        permissions: "700"
+        owner: root:root
+        content: |
+          #!/bin/bash
+          echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+          dpkg-reconfigure -f noninteractive cloud-init
+          cloud-init clean –-logs --seed
+		  rm -rf /var/lib/cloud/
+          rm /root/init-script.sh
+          history -c
+          shutdown -h now
+    runcmd:
+      - /root/init-script.sh
