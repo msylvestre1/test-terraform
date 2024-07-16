@@ -247,13 +247,6 @@ autoinstall:
         type: mount
 
   user-data:
-    users:
-      - name: msylvestre
-        groups: adm, sudo
-        sudo: ALL=(ALL) NOPASSWD:ALL
-        shell: /bin/bash
-        lock_passwd: false
-        hashed_passwd: "$6$1ubidoi0PgD48vUG$8fyy4viKqvE4sP58KCqv7Fpd.Oz3SWPUdfTqF7Gu7rrf9hdyNXY4jDQoV1zmFyQbNhxvfMOM9w9LfLy3cG5zF1"
     prefer_fqdn_over_hostname: true
     timezone: US/Eastern
     write_files:
@@ -268,6 +261,6 @@ autoinstall:
           rm -rf /var/lib/cloud/
           rm /root/init-script.sh
           history -c
-          #shutdown -h now
+          shutdown -h now
     runcmd:
       - /root/init-script.sh
