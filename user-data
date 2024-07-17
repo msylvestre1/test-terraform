@@ -256,6 +256,8 @@ autoinstall:
         hashed_passwd: "$6$XdMmxarJPH/pc0ca$fNZPnqiG717winYzbHtBupIzyby84IO9vXHNq23sZtoxvoExtEnHE/ICxgFD7VJvHYcQ/8c9hA2BmOfNdwX3w."
     prefer_fqdn_over_hostname: true
     timezone: US/Eastern
+    package_update: true
+    package_upgrade: true
     write_files:
       - path: /root/init-script.sh
         permissions: "700"
