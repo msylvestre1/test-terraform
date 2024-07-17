@@ -262,10 +262,10 @@ autoinstall:
         owner: root:root
         content: |
           #!/bin/bash
-          echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
-          dpkg-reconfigure -f noninteractive cloud-init
-          rm /root/init-script.sh
-          history -c
-          cloud-init clean –-logs --reboot
+          sudo echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+          sudo dpkg-reconfigure -f noninteractive cloud-init
+          sudo rm /root/init-script.sh
+          sudo history -c
+          sudo cloud-init clean –-logs --reboot
     runcmd:
       - /root/init-script.sh
