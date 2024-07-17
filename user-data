@@ -247,10 +247,6 @@ autoinstall:
         type: mount
 
   user-data:
-    prefer_fqdn_over_hostname: true
-    timezone: US/Eastern
-    package_update: true
-    package_upgrade: true
     write_files:
       - path: /root/init-script.sh
         permissions: "700"
