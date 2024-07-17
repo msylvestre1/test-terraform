@@ -258,7 +258,6 @@ autoinstall:
           echo 'datasource_list: [ NoCloud, ConfigDrive, Azure, AltCloud ,OVF ,VMware ,None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
           dpkg-reconfigure -f noninteractive cloud-init
           cloud-init clean –-logs --seed
-          rm -rf /var/lib/cloud/
           rm /root/init-script.sh
           history -c
     runcmd:
