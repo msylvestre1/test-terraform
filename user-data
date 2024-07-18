@@ -4,11 +4,9 @@
 #   Created on        : 2024-02-22
 #   Author(s)         : Alassane Maiga
 #
-#   Last Modification : 2024-03-04
-#   Author(s)         : Alassane Maiga
+#   Last Modification : 2024-07-17
+#   Author(s)         : Mathieu Sylvestre
 #
-#==============================Grub boot option for onPrem deploymentLine=========================================#
-#onpremGrubLine: net.ifnames=0 biosdevname=0 ip=((C))::((F)):((E)):((A)):eth0:none:((G)):((H)) autoinstall ds=nocloud-net\;s=https://git-ops.sherweb.com/linux/ubuntu/-/raw/main/Autoinstall/((A))/ quiet
 #========================Server Configuration========================================#
 autoinstall:
   version: 1
@@ -245,7 +243,7 @@ autoinstall:
         device: format-varlogaudit
         id: mount-varlogaudit
         type: mount
-
+  #========================Cloud-init Cleanup========================================#
   user-data:
     write_files:
       - path: /root/init-script.sh
