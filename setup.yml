@@ -1,0 +1,33 @@
+---
+- name: Setup frontend role (MFE)
+  hosts: MFE
+  become: true
+  gather_facts: true
+  vars_files:
+    - group_vars/LDAP.yaml
+    - group_vars/server.yaml
+  roles:
+    - base
+    - mfe
+
+- name: Setup backend role (MFB)
+  hosts: MFB
+  become: true
+  gather_facts: true
+  vars_files:
+    - group_vars/LDAP.yaml
+    - group_vars/server.yaml
+  roles:
+    - base
+    - mfb
+
+- name: Setup backend role (MFD)
+  hosts: MFD
+  become: true
+  gather_facts: true
+  vars_files:
+    - group_vars/LDAP.yaml
+    - group_vars/server.yaml
+  roles:
+    - base
+    - mfd
