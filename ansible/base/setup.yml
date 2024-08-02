@@ -1,33 +1,9 @@
----
-- name: Setup frontend role (MFE)
-  hosts: MFE
-  become: true
-  gather_facts: true
-  vars_files:
-    - group_vars/LDAP.yaml
-    - group_vars/server.yaml
-  roles:
-    - base
-    - mfe
+- name: My first play
+  hosts: myhosts
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
 
-- name: Setup backend role (MFB)
-  hosts: MFB
-  become: true
-  gather_facts: true
-  vars_files:
-    - group_vars/LDAP.yaml
-    - group_vars/server.yaml
-  roles:
-    - base
-    - mfb
-
-- name: Setup backend role (MFD)
-  hosts: MFD
-  become: true
-  gather_facts: true
-  vars_files:
-    - group_vars/LDAP.yaml
-    - group_vars/server.yaml
-  roles:
-    - base
-    - mfd
+   - name: Print message
+     ansible.builtin.debug:
+      msg: Hello world
