@@ -1,6 +1,6 @@
 # roles/base/tasks/main.yml
 - name: Apply the latest CIS hardening
-  import_tasks: cis_hardening.yml
+  import_tasks: hardening.yml
 
 #- name: Apply the default firewall rules
 #  import_tasks: firewall.yml
