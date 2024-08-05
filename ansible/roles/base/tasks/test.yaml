@@ -1,3 +1,0 @@
-- name: This is a test
-  ansible.builtin.shell: |
-    echo "hello world"
