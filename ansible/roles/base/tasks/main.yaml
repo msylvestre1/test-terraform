@@ -1,9 +1,8 @@
 # roles/base/tasks/main.yml
-- name: Include tasks 'register.yml'
+- name: Include tasks 'ubuntu_pro.yaml'
   include_tasks: ubuntu_pro.yaml
-  when: state == 'present' or state == 'attached'
 
-- name: Apply the latest CIS hardening
+- name: Include tasks 'hardening.yaml'
   include_tasks: hardening.yaml
 
 #- name: Apply the default firewall rules
