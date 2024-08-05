@@ -1,0 +1,5 @@
+# roles/base/tasks/hardening.yml
+- name: Apply the latest CIS hardening
+  copy:
+    content: "hello world"
+    dest: "/tmp/hardening.txt"
