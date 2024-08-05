@@ -1,5 +1,4 @@
-# roles/base/tasks/hardening.yml
+---
 - name: Apply the latest CIS hardening
-  copy:
-    content: "test"
-    dest: "/tmp/hardening.txt"
+  ansible.builtin.command: "usg fix {{ cis_hardening_level }}"
+  become: yes
