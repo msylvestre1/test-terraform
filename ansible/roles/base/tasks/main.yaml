@@ -1,0 +1,24 @@
+# roles/base/tasks/main.yml
+- name: Apply the latest CIS hardening
+  import_tasks: cis_hardening.yml
+
+#- name: Apply the default firewall rules
+#  import_tasks: firewall.yml
+
+#- name: Apply domain authentication
+#  import_tasks: domain.yml
+
+#- name: Set the NTP servers
+#  import_tasks: ntp.yml
+
+#- name: Install and configure Windows Defender
+#  import_tasks: defender.yml
+
+#- name: Install and configure Tenable
+#  import_tasks: tenable.yml
+
+#- name: Install and configure Filebeat
+#  import_tasks: filebeat.yml
+
+#- name: Install and configure Auditbeat
+#  import_tasks: auditbeat.yml
