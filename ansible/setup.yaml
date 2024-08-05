@@ -1,8 +1,9 @@
-- name: Setup base roles
-  hosts: infrastructure
-  become: true
-  gather_facts: true
-  vars_files:
-    - group_vars/ldap.yaml
-  roles:
-    - base
+---
+-   name: Setup base roles
+    hosts: infrastructure
+    connection: local
+    become: true
+    vars_files:
+      - group_vars/ldap.yaml
+    roles:
+      - base
