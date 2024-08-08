@@ -1,48 +1,48 @@
 # roles/base/tasks/main.yml
-- name: Install and configure Auditbeat
-  import_tasks: auditbeat.yaml
-  tags: infra
+#- name: Install and configure Auditbeat
+#  import_tasks: auditbeat.yaml
+#  tags: infra
 
-- name: Install and configure Windows Defender
-  import_tasks: defender.yaml
-  tags: global
+#- name: Install and configure Windows Defender
+#  import_tasks: defender.yaml
+#  tags: global
 
-- name: Install and configure Filebeat
-  import_tasks: filebeat.yaml
-  tags: infra
+#- name: Install and configure Filebeat
+#  import_tasks: filebeat.yaml
+#  tags: infra
 
-- name: Apply the default firewall rules
-  import_tasks: firewall.yaml
-  tags: global
+#- name: Apply the default firewall rules
+#  import_tasks: firewall.yaml
+#  tags: global
 
 - name: Apply the latest CIS hardening
   import_tasks: hardening.yaml
   tags: global
 
-- name: Configure PRTG sensors
-  import_tasks: monitoring.yaml
-  tags: infra
+#- name: Configure PRTG sensors
+#  import_tasks: monitoring.yaml
+#  tags: infra
 
-- name: Set the NTP servers
-  import_tasks: ntp.yaml
-  tags: global
+#- name: Set the NTP servers
+#  import_tasks: ntp.yaml
+#  tags: global
 
-- name: Set up SNMP user
-  import_tasks: sherweb.yaml
-  tags: global
+#- name: Add sherweb motd
+#  import_tasks: sherweb.yaml
+#  tags: global
 
-- name: Set up SNMP user
-  import_tasks: snmp.yaml
-  tags: infra
+#- name: Set up SNMP user
+#  import_tasks: snmp.yaml
+#  tags: infra
 
-- name: Set the SSHD permissions
-  import_tasks: sshd.yaml
-  tags: global
+#- name: Set the SSHD permissions
+#  import_tasks: sshd.yaml
+#  tags: global
 
-- name: Apply domain authentication
-  import_tasks: sssd.yaml
-  tags: global
+#- name: Apply domain authentication
+#  import_tasks: sssd.yaml
+#  tags: global
 
-- name: Install and configure Tenable
-  import_tasks: tenable.yaml
-  tags: global
+#- name: Install and configure Tenable
+#  import_tasks: tenable.yaml
+#  tags: global
