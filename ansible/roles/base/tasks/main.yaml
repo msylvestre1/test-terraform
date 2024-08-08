@@ -39,9 +39,9 @@
 #  import_tasks: sshd.yaml
 #  tags: global
 
-#- name: Apply domain authentication
-#  import_tasks: sssd.yaml
-#  tags: global
+- name: Apply domain authentication
+  import_tasks: sssd.yaml
+  tags: global
 
 #- name: Install and configure Tenable
 #  import_tasks: tenable.yaml
