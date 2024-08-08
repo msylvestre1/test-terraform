@@ -1,27 +1,48 @@
 # roles/base/tasks/main.yml
-- name: Include tasks 'ubuntu_pro.yaml'
-  include_tasks: ubuntu_pro.yaml
+- name: Install and configure Auditbeat
+  import_tasks: auditbeat.yaml
+  tags: infra
 
-- name: Include tasks 'hardening.yaml'
-  include_tasks: hardening.yaml
+- name: Install and configure Windows Defender
+  import_tasks: defender.yaml
+  tags: global
 
-#- name: Apply the default firewall rules
-#  import_tasks: firewall.yml
+- name: Install and configure Filebeat
+  import_tasks: filebeat.yaml
+  tags: infra
 
-#- name: Apply domain authentication
-#  import_tasks: domain.yml
+- name: Apply the default firewall rules
+  import_tasks: firewall.yaml
+  tags: global
 
-#- name: Set the NTP servers
-#  import_tasks: ntp.yml
+- name: Apply the latest CIS hardening
+  import_tasks: hardening.yaml
+  tags: global
 
-#- name: Install and configure Windows Defender
-#  import_tasks: defender.yml
+- name: Configure PRTG sensors
+  import_tasks: monitoring.yaml
+  tags: infra
 
-#- name: Install and configure Tenable
-#  import_tasks: tenable.yml
+- name: Set the NTP servers
+  import_tasks: ntp.yaml
+  tags: global
 
-#- name: Install and configure Filebeat
-#  import_tasks: filebeat.yml
+- name: Set up SNMP user
+  import_tasks: sherweb.yaml
+  tags: global
 
-#- name: Install and configure Auditbeat
-#  import_tasks: auditbeat.yml
+- name: Set up SNMP user
+  import_tasks: snmp.yaml
+  tags: infra
+
+- name: Set the SSHD permissions
+  import_tasks: sshd.yaml
+  tags: global
+
+- name: Apply domain authentication
+  import_tasks: sssd.yaml
+  tags: global
+
+- name: Install and configure Tenable
+  import_tasks: tenable.yaml
+  tags: global
