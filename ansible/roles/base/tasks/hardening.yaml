@@ -18,4 +18,3 @@
 
     creates: /opt/Sherweb/sw_CIS_applied
   register: cis_LBK_result
-  notify: Add-CisAppliedMarker
