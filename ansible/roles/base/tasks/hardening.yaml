@@ -1,4 +1,21 @@
----
-- name: Apply the latest CIS hardening
-  ansible.builtin.command: "usg fix {{ cis_hardening_level }}"
-  become: yes
+- name: CIS hardening package copy
+  ansible.builtin.unarchive:
+    src: ../files/CIS_Ubuntu_Linux_22.04_LTS_Benchmark_Latest.tar.gz
+    dest: /root/setup/
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Add excluded settings
+  ansible.builtin.lineinfile:
+    path: /root/setup/CIS-LBK/cis_lbk_ubuntu_linux_22.04_lts_benchmark_v2.0.0/exclusion_list.txt
+    insertafter: EOF
+    line: "6.2.1.2.3 # Exclude systemd-journal-remote rules "
+
+- name: Execute CIS hardening script
+  ansible.builtin.command:
+    cmd: /root/setup/CIS-LBK/cis_lbk_ubuntu_linux_22.04_lts_benchmark_v2.0.0/ubuntu_linux_22.04_lts_benchmark_v2.0.0.sh -s -p "L1S"
+
+    creates: /opt/Sherweb/sw_CIS_applied
+  register: cis_LBK_result
+  notify: Add-CisAppliedMarker
