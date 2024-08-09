@@ -7,17 +7,19 @@
 #  import_tasks: defender.yaml
 #  tags: global
 
-#- name: Install and configure Filebeat
-#  import_tasks: filebeat.yaml
-#  tags: infra
+- name: Apply the latest CIS hardening
+  import_tasks: hardening.yaml
+  tags: global
+  
+- name: Install and configure Filebeat
+  import_tasks: filebeat.yaml
+  tags: infra
 
 #- name: Apply the default firewall rules
 #  import_tasks: firewall.yaml
 #  tags: global
 
-- name: Apply the latest CIS hardening
-  import_tasks: hardening.yaml
-  tags: global
+
 
 #- name: Configure PRTG sensors
 #  import_tasks: monitoring.yaml
@@ -39,9 +41,9 @@
 #  import_tasks: sshd.yaml
 #  tags: global
 
-- name: Apply domain authentication
-  import_tasks: sssd.yaml
-  tags: global
+#- name: Apply domain authentication
+#  import_tasks: sssd.yaml
+#  tags: global
 
 #- name: Install and configure Tenable
 #  import_tasks: tenable.yaml
