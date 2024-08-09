@@ -1,0 +1,34 @@
+---
+# Domain join new deployment with Realm
+- name: Install AD Domain packages
+  apt: 
+    pkg:
+      - realmd
+      - sssd
+      - adcli
+      - krb5-user
+      - sssd-tools
+      - samba-common
+      - packagekit
+      - samba-common-bin
+      - samba-libs
+
+# Check for existing AD
+- name: Realm list to check existing AD
+  command: /bin/bash -c "/usr/sbin/realm list"
+  register: realm_list_results
+  
+- name: Debug realm_list_results
+  debug:
+    msg: {{ realm_list_results.stdout }}
+
+- name: Realm join AD
+  expect:
+    command: /bin/bash -c "/usr/sbin/realm join {{ realm_domain }} --computer-ou='{{ realm_ad_ou }}' --user={{ kerberos_user }}"
+    responses:
+      (?i)Password: "{{ kerberos_user_password }}"  
+  ignore_errors: yes
+  when: realm_list_results.stdout == ""
+  become: true
+
+
