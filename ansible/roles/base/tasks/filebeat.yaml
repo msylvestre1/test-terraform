@@ -1,1 +1,24 @@
+---
+- name: Add Elasticsearch GPG key.
+  rpm_key:
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
 
+- name: Add Filebeat repository.
+  template:
+    src: beats.repo.j2
+    dest: /etc/apt/sources.list.d/beats.list
+    mode: 0644
+
+- name: Install Filebeat.
+  package:
+    name: filebeat
+    state: present
+
+# Config
+
+- name: Ensure Filebeat is started and enabled at boot.
+  service:
+    name: filebeat
+    state: started
+    enabled: true
