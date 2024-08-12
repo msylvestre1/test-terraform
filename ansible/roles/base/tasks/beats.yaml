@@ -14,6 +14,8 @@
     src: "../files/logzio.crt"
     dest: "/etc/ssl/certs/logzio.crt"
     mode: 0644
+  tags:
+    - infra
 
  #- name: Install Filebeat
  #  include_tasks: filebeat.yaml
