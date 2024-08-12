@@ -1,1 +1,52 @@
+############################# Auditbeat #####################################
 
+fields:
+  type: auditd
+  logzio_codec: json
+  token: {{ logzio_token }}
+fields_under_root: true
+processors:
+- rename:
+    fields:
+    - from: "agent"
+      to: "beat_agent"
+    ignore_missing: true
+- rename:
+    fields:
+    - from: "log.file.path"
+      to: "source_auditd"
+    ignore_missing: true
+#==========================  Modules configuration =============================
+auditbeat.modules:
+- module: auditd
+  # Load audit rules from separate files. Same format as audit.rules(7).
+  audit_rule_files: [ '${path.config}/audit.rules.d/*.conf' ]
+  audit_rules: |
+- module: file_integrity
+  paths:
+  - /bin
+  - /usr/bin
+  - /sbin
+  - /usr/sbin
+  - /etc
+- module: system
+  datasets:
+    - package # Installed, updated, and removed packages
+  period: 2m # The frequency at which the datasets check for changes
+- module: system
+  datasets:
+    - host    # General host information, e.g. uptime, IPs
+    - login   # User logins, logouts, and system boots.
+    - process # Started and stopped processes
+    - socket  # Opened and closed sockets
+    - user    # User information
+  state.period: 12h
+  user.detect_password_changes: true
+  login.wtmp_file_pattern: /var/log/wtmp*
+  login.btmp_file_pattern: /var/log/btmp*
+#================================ Outputs =====================================
+# Configure what output to use when sending the data collected by the beat.
+output.logstash:
+  hosts: [ {{ logzio_listener }} ]
+  ssl:
+    certificate_authorities: ['/etc/ssl/certs/logzio.crt']
