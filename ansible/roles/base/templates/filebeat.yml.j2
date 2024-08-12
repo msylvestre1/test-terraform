@@ -1,1 +1,37 @@
+############################# Filebeat #####################################
 
+filebeat.inputs:
+
+- type: filestream
+  paths:
+    - /var/log/*/*.log
+  fields:
+    type: filebeat
+    logzio_codec: json
+    token: {{ logzio_token }}
+  fields_under_root: true
+  encoding: utf-8
+  ignore_older: 720h
+  exclude_files: [/var/audit/*]
+
+filebeat.registry.path: /var/lib/filebeat
+
+processors:
+- rename:
+    fields:
+     - from: "agent"
+       to: "beat_agent"
+    ignore_missing: true
+- rename:
+    fields:
+     - from: "log.file.path"
+       to: "source"
+    ignore_missing: true
+
+############################# Output ##########################################
+
+output:
+  logstash:
+    hosts: [ {{ logzio_listener }} ]
+    ssl:
+      certificate_authorities: ['/etc/ssl/certs/logzio.crt']
