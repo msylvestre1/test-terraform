@@ -17,7 +17,7 @@
 - name: Copy Filebeat configuration.
   template:
     src: "../templates/filebeat.yml.j2"
-    dest: "/root/setup/filebeat.yml"
+    dest: "/etc/filebeat/filebeat.yml"
     owner: root
     group: root
     mode: 0644
