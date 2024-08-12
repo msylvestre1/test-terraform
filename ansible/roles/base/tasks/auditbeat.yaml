@@ -14,7 +14,13 @@
     name: auditbeat
     state: present
 
-# Config
+- name: Copy Auditbeat configuration.
+  template:
+    src: "../templates/auditbeat.yml.j2"
+    dest: "/etc/filebeat/auditbeat.yml"
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Ensure Auditbeat is started and enabled at boot.
   service:
