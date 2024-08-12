@@ -6,10 +6,14 @@
 #- name: Install and configure Auditbeat
 #  import_tasks: auditbeat.yaml
 #  tags: infra
-  
-- name: Install and configure Filebeat
-  import_tasks: filebeat.yaml
+
+- name: Install and configure Filebeat and Auditbeat
+  import_tasks: beats.yaml
   tags: infra
+
+#- name: Install and configure Filebeat
+#  import_tasks: filebeat.yaml
+#  tags: infra
 
 # TO DO
 
