@@ -21,7 +21,6 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart filebeat
 
 - name: Ensure Filebeat is started and enabled at boot.
   service:
