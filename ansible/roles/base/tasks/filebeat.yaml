@@ -1,20 +1,3 @@
-- name: Add Elasticsearch apt key.
-  apt_key:
-    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-    id: 46095ACC8548582C1A2699A9D27D666CD88E42B4
-    state: present
-
-- name: Add Elasticsearch repository.
-  apt_repository:
-    repo: 'deb https://artifacts.elastic.co/packages/8.x/apt stable main'
-    state: present
-
-- name: SSL cert for filebeat.
-  copy:
-    src: "../files/logzio.crt"
-    dest: "/etc/ssl/certs/logzio.crt"
-    mode: 0644
-
 - name: Install Filebeat.
   package:
     name: filebeat
