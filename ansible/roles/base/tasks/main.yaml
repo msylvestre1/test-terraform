@@ -1,25 +1,25 @@
 # roles/base/tasks/main.yml
-#- name: Install and configure Windows Defender
-#  import_tasks: defender.yaml
-#  tags: global
-
 #- name: Apply the latest CIS hardening
 #  import_tasks: hardening.yaml
 #  tags: global
 
-- name: Install and configure Auditbeat
-  import_tasks: auditbeat.yaml
-  tags: infra
+#- name: Install and configure Auditbeat
+#  import_tasks: auditbeat.yaml
+#  tags: infra
   
 - name: Install and configure Filebeat
   import_tasks: filebeat.yaml
   tags: infra
 
+# TO DO
+
 #- name: Apply the default firewall rules
 #  import_tasks: firewall.yaml
 #  tags: global
 
-
+#- name: Install and configure Windows Defender
+#  import_tasks: defender.yaml
+#  tags: global
 
 #- name: Configure PRTG sensors
 #  import_tasks: monitoring.yaml
