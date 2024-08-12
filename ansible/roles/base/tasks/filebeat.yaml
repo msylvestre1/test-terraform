@@ -14,7 +14,14 @@
     name: filebeat
     state: present
 
-# Config
+- name: Copy Filebeat configuration.
+  template:
+    src: "../templates/filebeat.yml.j2"
+    dest: "/root/setup/filebeat.yml"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart filebeat
 
 - name: Ensure Filebeat is started and enabled at boot.
   service:
