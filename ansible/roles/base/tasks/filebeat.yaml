@@ -14,7 +14,6 @@
     src: "../files/logzio.crt"
     dest: "/etc/ssl/certs/logzio.crt"
     mode: 0644
-    state: present
 
 - name: Install Filebeat.
   package:
