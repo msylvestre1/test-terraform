@@ -8,7 +8,7 @@ filebeat.inputs:
   fields:
     type: filebeat
     logzio_codec: json
-    token: "{{ logzio_token }}"
+    token: {{ logzio_token }}
   fields_under_root: true
   encoding: utf-8
   ignore_older: 720h
@@ -32,6 +32,6 @@ processors:
 
 output:
   logstash:
-    hosts: [ "{{ logzio_listener }}" ]
+    hosts: [ {{ logzio_listener }} ]
     ssl:
       certificate_authorities: ['/etc/ssl/certs/logzio.crt']
