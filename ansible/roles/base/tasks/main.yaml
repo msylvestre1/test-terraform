@@ -7,9 +7,9 @@
 #  import_tasks: defender.yaml
 #  tags: global
 
-- name: Apply the latest CIS hardening
-  import_tasks: hardening.yaml
-  tags: global
+#- name: Apply the latest CIS hardening
+#  import_tasks: hardening.yaml
+#  tags: global
   
 - name: Install and configure Filebeat
   import_tasks: filebeat.yaml
