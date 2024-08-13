@@ -1,0 +1,5 @@
+- name: SSL cert for Logz.io.
+  copy:
+    src: "../files/certificates/logzio.crt"
+    dest: "/etc/ssl/certs/logzio.crt"
+    mode: 0644
