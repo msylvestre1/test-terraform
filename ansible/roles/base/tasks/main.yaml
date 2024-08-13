@@ -1,7 +1,7 @@
 # roles/base/tasks/main.yml
-- name: Apply the latest CIS hardening
-  import_tasks: hardening.yaml
-  tags: global
+#- name: Apply the latest CIS hardening
+#  import_tasks: hardening.yaml
+#  tags: global
 
 - name: Install and configure Filebeat and Auditbeat
   import_tasks: beats.yaml
@@ -9,7 +9,7 @@
 
 - name: SSL cert for Logz.io.
   import_tasks: logzio.yaml
-  tags: infra  
+  tags: infra
 
 # TO DO
 
