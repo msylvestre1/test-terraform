@@ -5,8 +5,8 @@
 
 - name: Copy Auditbeat configuration.
   template:
-    src: "../templates/auditbeat.yml.j2"
-    dest: "/etc/filebeat/auditbeat.yml"
+    src: "../templates/{{ auditbeat_config }}.yml.j2"
+    dest: "/etc/auditbeat/auditbeat.yml"
     owner: root
     group: root
     mode: 0644
