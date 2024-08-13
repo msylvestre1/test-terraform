@@ -7,6 +7,10 @@
   import_tasks: beats.yaml
   tags: global
 
+- name: Install and configure Filebeat and Auditbeat
+  import_tasks: logzio.yaml
+  tags: infra  
+
 # TO DO
 
 #- name: Apply the default firewall rules
