@@ -3,3 +3,5 @@
     src: "../files/certificates/logzio.crt"
     dest: "/etc/ssl/certs/logzio.crt"
     mode: 0644
+  notify: restart auditbeat
+  notify: restart filebeat
