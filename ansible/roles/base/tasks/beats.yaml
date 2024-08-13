@@ -9,13 +9,5 @@
     repo: 'deb https://artifacts.elastic.co/packages/8.x/apt stable main'
     state: present
 
-- name: SSL cert for Logz.io.
-  copy:
-    src: "../files/certificates/logzio.crt"
-    dest: "/etc/ssl/certs/logzio.crt"
-    mode: 0644
-  tags:
-    - infra
-
  #- name: Install Filebeat
  #  include_tasks: filebeat.yaml
