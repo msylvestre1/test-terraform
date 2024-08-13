@@ -15,4 +15,4 @@
 
 - name: Install Auditbeat
   include_tasks: auditbeat.yaml
-  tags: [ 'never', 'infra' ]
+  when: "'infra' in ansible_run_tags"
