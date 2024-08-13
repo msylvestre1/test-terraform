@@ -7,7 +7,7 @@
   import_tasks: beats.yaml
   tags: global
 
-- name: Install and configure Filebeat and Auditbeat
+- name: SSL cert for Logz.io.
   import_tasks: logzio.yaml
   tags: infra  
 
