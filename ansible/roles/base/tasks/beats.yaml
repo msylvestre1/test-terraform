@@ -9,5 +9,10 @@
     repo: 'deb https://artifacts.elastic.co/packages/8.x/apt stable main'
     state: present
 
- #- name: Install Filebeat
- #  include_tasks: filebeat.yaml
+ - name: Install Filebeat
+   include_tasks: filebeat.yaml
+   tags: global
+
+ - name: Install Auditbeat
+   include_tasks: auditbeat.yaml
+   tags: infra
