@@ -1,3 +1,6 @@
 ---
+- name: restart auditbeat
+  service: name=auditbeat state=restarted
+
 - name: restart filebeat
   service: name=filebeat state=restarted
