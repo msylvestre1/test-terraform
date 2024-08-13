@@ -15,5 +15,5 @@
 
 - name: Install Auditbeat
   include_tasks: auditbeat.yaml
-  when: run when tag infra
+  when: true
   tags: infra
