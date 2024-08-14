@@ -1,16 +1,2 @@
-- name: Download Tenable agent
-  ansible.builtin.uri:
-    url: https://sensor.cloud.tenable.com/install/agent?groups=CloudOps
-    method: GET
-    body_format: raw
-    status_code: [200, 202]
-    return_content: true
-    headers:
-      X-Key: "{{ tenable_key }}"
-    dest: /root/setup/tenable.sh
-
-- name: Execute Tenable installation.
-  ansible.builtin.command:
-    cmd: /root/setup/tenable.sh
-    creates: /opt/nessus_agent/sbin/nessus-service
-  when: TenableInstallationEnabled
+- name: Install Tenable Agent
+  shell: "curl -H 'X-Key: {{tenable_token}}' 'https://sensor.cloud.tenable.com/install/agent?groups={{group_name}}' | bash"
