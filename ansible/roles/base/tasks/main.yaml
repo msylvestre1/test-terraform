@@ -7,10 +7,6 @@
   import_tasks: beats.yaml
   tags: global
 
-- name: SSL cert for Logz.io.
-  import_tasks: logzio.yaml
-  tags: infra
-
 # TO DO
 
 #- name: Apply the default firewall rules
