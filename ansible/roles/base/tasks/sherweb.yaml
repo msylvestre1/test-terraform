@@ -1,16 +1,16 @@
 - name: Add Sherweb disclaimer to /etc/motd
   copy:
-    content: "{{ motd-sherweb }}"
+    content: "{{ motd_sherweb }}"
     dest: "/etc/update-motd.d/99-motd-sherweb"
 
 - name: Add Sherweb disclaimer to /etc/issue
   copy:
-    content: "{{ issue-sherweb }}"
+    content: "{{ issue_sherweb }}"
     dest: "/etc/issue"
 
 - name: Add Sherweb disclaimer to /etc/issue.net
   copy:
-    content: "{{ issue-net-sherweb }}"
+    content: "{{ issue_net_sherweb }}"
     dest: "/etc/issue.net"
 
 - name : Set disclaimer permissions
