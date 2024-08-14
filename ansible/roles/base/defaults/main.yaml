@@ -1,5 +1,2 @@
-auditbeat_config: "auditbeat"
-filebeat_config: "filebeat"
-
 logzio_token: "ZGIwGokIkDiURSuKvPkbbmojhwsFvjJl"
 logzio_listener: "listener.logz.io:5015"
