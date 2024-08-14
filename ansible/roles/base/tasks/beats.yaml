@@ -1,3 +1,4 @@
+---
 - name: Add Elasticsearch apt key.
   apt_key:
     url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
@@ -8,6 +9,10 @@
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/8.x/apt stable main'
     state: present
+
+- name: SSL cert for Logz.io.
+  include_tasks: logzio.yaml
+  when: "'infra' in ansible_run_tags"
 
 - name: Install Filebeat
   include_tasks: filebeat.yaml
