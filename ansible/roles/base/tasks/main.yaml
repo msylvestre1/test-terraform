@@ -3,8 +3,12 @@
 #  import_tasks: hardening.yaml
 #  tags: global
 
-- name: Install and configure Filebeat and Auditbeat
-  import_tasks: beats.yaml
+#- name: Install and configure Filebeat and Auditbeat
+#  import_tasks: beats.yaml
+#  tags: global
+
+- name: Add sherweb motd
+  import_tasks: sherweb.yaml
   tags: global
 
 # TO DO
@@ -25,9 +29,7 @@
 #  import_tasks: ntp.yaml
 #  tags: global
 
-#- name: Add sherweb motd
-#  import_tasks: sherweb.yaml
-#  tags: global
+
 
 #- name: Set up SNMP user
 #  import_tasks: snmp.yaml
