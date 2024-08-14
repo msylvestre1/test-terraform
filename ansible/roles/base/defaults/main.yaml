@@ -3,3 +3,7 @@ logzio_listener: "listener.logz.io:5015"
 
 tenable_token: ""
 tenable_group: ""
+
+motd_sherweb: ""
+issue_sherweb: "Sherweb Inc. Authorized uses only. All activity may be monitored and reported."
+issue_net_sherweb: ""
