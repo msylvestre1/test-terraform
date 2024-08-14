@@ -5,7 +5,7 @@
 
 - name: Copy Auditbeat configuration.
   template:
-    src: "../templates/{{ auditbeat_config }}.yml.j2"
+    src: "../templates/auditbeat.yml.j2"
     dest: "/etc/auditbeat/auditbeat.yml"
     owner: root
     group: root
