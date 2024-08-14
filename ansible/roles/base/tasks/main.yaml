@@ -7,7 +7,7 @@
 #  import_tasks: beats.yaml
 #  tags: global
 
-- name: Add sherweb motd
+- name: Add sherweb disclaimers
   import_tasks: sherweb.yaml
   tags: global
 
