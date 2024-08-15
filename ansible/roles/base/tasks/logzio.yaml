@@ -1,3 +1,4 @@
+---
 - name: SSL cert for Logz.io.
   copy:
     src: "../files/certificates/logzio.crt"
