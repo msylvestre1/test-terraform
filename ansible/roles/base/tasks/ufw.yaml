@@ -10,6 +10,6 @@
     proto: udp
     port: "161"
 
-- name : Enable UFW
+- name: Allow everything and enable UFW
   community.general.ufw:
-  state: enabled
+    state: enabled
