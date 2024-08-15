@@ -1,0 +1,14 @@
+---
+- name: Install snmpd.
+  package:
+    name: snmpd
+    state: present
+
+- name: Create PRTG user
+  shell: "net-snmp-create-v3-user -ro -A {{ snmp_password }} -a SHA -X {{ snmp_password }} -x AES {{ snmp_user }}"
+
+- name: Ensure snmpd is started and enabled at boot.
+  service:
+    name: snmpd
+    state: started
+    enabled: true

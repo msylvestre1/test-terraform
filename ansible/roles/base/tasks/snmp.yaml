@@ -1,8 +1,0 @@
----
-- name: Install SNMPD.
-  package:
-    name: snmpd
-    state: present
-
-- name: Create PRTG user
-  
