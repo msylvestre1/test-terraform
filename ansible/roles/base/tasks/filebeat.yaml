@@ -1,3 +1,4 @@
+---
 - name: Install Filebeat.
   package:
     name: filebeat
