@@ -1,7 +1,7 @@
 # roles/base/tasks/main.yml
-#- name: Apply the latest CIS hardening
-#  import_tasks: hardening.yaml
-#  tags: global
+- name: Apply the latest CIS hardening
+  import_tasks: hardening.yaml
+  tags: global
 
 #- name: Install and configure Filebeat and Auditbeat
 #  import_tasks: beats.yaml
@@ -10,7 +10,7 @@
 - name: Set the SSHD permissions
   import_tasks: sshd.yaml
   tags: global
-  
+
 - name: Add sherweb disclaimers
   import_tasks: sherweb.yaml
   tags: global
@@ -43,3 +43,4 @@
 #- name: Install and configure Tenable
 #  import_tasks: tenable.yaml
 #  tags: global
+
