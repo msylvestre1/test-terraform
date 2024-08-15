@@ -1,3 +1,4 @@
+---
 - name: CIS hardening package copy
   ansible.builtin.unarchive:
     src: files/CIS_Ubuntu_Linux_22.04_LTS_Benchmark_Latest.tar.gz
