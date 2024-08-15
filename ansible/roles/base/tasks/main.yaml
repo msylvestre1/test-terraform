@@ -7,19 +7,21 @@
 #  import_tasks: beats.yaml
 #  tags: global
 
-#- name: Add sherweb disclaimers
-#  import_tasks: sherweb.yaml
-#  tags: global
+- name: Add sherweb disclaimers
+  import_tasks: sherweb.yaml
+  tags: global
 
+- name: Apply the default firewall rules
+  import_tasks: ufw.yaml
+  tags: global
+  
 - name: Install snmpd and create PRTG user
   import_tasks: snmpd.yaml
   tags: global
 
 # TO DO
 
-#- name: Apply the default firewall rules
-#  import_tasks: firewall.yaml
-#  tags: global
+
 
 #- name: Install and configure Windows Defender
 #  import_tasks: defender.yaml
