@@ -1,2 +1,3 @@
+---
 - name: Install Tenable Agent
   shell: "curl -H 'X-Key: {{tenable_token}}' 'https://sensor.cloud.tenable.com/install/agent?groups={{tenable_group}}' | bash"
