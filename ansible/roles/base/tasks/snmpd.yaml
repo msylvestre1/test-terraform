@@ -4,8 +4,13 @@
     name: snmpd
     state: present
 
+- name: Stop snmpd for user creation
+  service:
+    name: snmpd
+    state: stopped
+
 - name: Create PRTG user
-  shell: "systemctl stop snmpd | net-snmp-create-v3-user -ro -A {{ snmpd_password }} -a SHA -X {{ snmpd_password }} -x AES {{ snmpd_user }}"
+  shell: "net-snmp-create-v3-user -ro -A {{ snmpd_password }} -a SHA -X {{ snmpd_password }} -x AES {{ snmpd_user }}"
 
 - name: Ensure snmpd is started and enabled at boot.
   service:
