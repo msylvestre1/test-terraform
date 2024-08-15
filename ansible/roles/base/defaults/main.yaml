@@ -1,5 +1,8 @@
 logzio_token: ""
 logzio_listener: "listener.logz.io:5015"
 
+snmpd_password: "ansible-snmpd"
+snmpd_user: "ansible-snmpd"
+
 tenable_token: ""
 tenable_group: ""
