@@ -1,3 +1,6 @@
+domain: "zc03.internal"
+linux_groups: "dl_linuxadmins@{{ domain }}"
+
 logzio_token: ""
 logzio_listener: "listener.logz.io:5015"
 
