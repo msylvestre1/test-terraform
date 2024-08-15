@@ -1,3 +1,8 @@
 ---
-- name: Install SNMPD
-  apt: 
+- name: Install SNMPD.
+  package:
+    name: snmpd
+    state: present
+
+- name: Create PRTG user
+  
