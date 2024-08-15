@@ -1,3 +1,4 @@
+---
 - name: Add Sherweb disclaimer to /etc/update-motd.d/99-motd-sherweb
   template:
     src: "../templates/motd-sherweb.j2"
