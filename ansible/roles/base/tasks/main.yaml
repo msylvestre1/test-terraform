@@ -7,8 +7,12 @@
 #  import_tasks: beats.yaml
 #  tags: global
 
-- name: Add sherweb disclaimers
-  import_tasks: sherweb.yaml
+#- name: Add sherweb disclaimers
+#  import_tasks: sherweb.yaml
+#  tags: global
+
+- name: Install snmpd and create PRTG user
+  import_tasks: snmpd.yaml
   tags: global
 
 # TO DO
@@ -31,9 +35,7 @@
 
 
 
-#- name: Set up SNMP user
-#  import_tasks: snmp.yaml
-#  tags: infra
+
 
 #- name: Set the SSHD permissions
 #  import_tasks: sshd.yaml
