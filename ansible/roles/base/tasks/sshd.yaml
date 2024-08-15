@@ -1,3 +1,4 @@
+---
 - name: SSHD Add hostkey directive for ed25519
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
