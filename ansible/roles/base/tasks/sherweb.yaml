@@ -1,6 +1,6 @@
 - name: Add Sherweb disclaimer to /etc/motd
   template:
-    src: "../templates/motd_sherweb.j2"
+    src: "../templates/motd-sherweb.j2"
     dest: "/etc/update-motd.d/99-motd-sherweb"
     owner: root
     group: root
@@ -8,20 +8,15 @@
 
 - name: Add Sherweb disclaimer to /etc/issue
   template:
-    src: "../templates/issue_sherweb.j2"
+    src: "../templates/issue-sherweb.j2"
     dest: "/etc/issue"
     owner: root
     group: root
     mode: 0644
 
-- name: Add Sherweb disclaimer to /etc/issue.net
-  copy:
-    content: "{{ issue_net_sherweb }}"
-    dest: "/etc/issue.net"
-
 - name : Set disclaimer permissions
   template:
-    src: "../templates/issue_net_sherweb.j2"
+    src: "../templates/issue-net-sherweb.j2"
     dest: "/etc/issue.net"
     owner: root
     group: root
