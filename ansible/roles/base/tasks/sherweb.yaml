@@ -1,4 +1,4 @@
-- name: Add Sherweb disclaimer to /etc/motd
+- name: Add Sherweb disclaimer to /etc/update-motd.d/99-motd-sherweb
   template:
     src: "../templates/motd-sherweb.j2"
     dest: "/etc/update-motd.d/99-motd-sherweb"
@@ -14,7 +14,7 @@
     group: root
     mode: 0644
 
-- name : Set disclaimer permissions
+- name : Add Sherweb disclaimer to /etc/issue.net
   template:
     src: "../templates/issue-net-sherweb.j2"
     dest: "/etc/issue.net"
