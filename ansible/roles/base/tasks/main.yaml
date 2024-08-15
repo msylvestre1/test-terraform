@@ -7,6 +7,10 @@
 #  import_tasks: beats.yaml
 #  tags: global
 
+- name: Set the SSHD permissions
+  import_tasks: sshd.yaml
+  tags: global
+  
 - name: Add sherweb disclaimers
   import_tasks: sherweb.yaml
   tags: global
@@ -20,9 +24,6 @@
   tags: global
 
 # TO DO
-
-
-
 #- name: Install and configure Windows Defender
 #  import_tasks: defender.yaml
 #  tags: global
@@ -33,14 +34,6 @@
 
 #- name: Set the NTP servers
 #  import_tasks: ntp.yaml
-#  tags: global
-
-
-
-
-
-#- name: Set the SSHD permissions
-#  import_tasks: sshd.yaml
 #  tags: global
 
 #- name: Apply domain authentication
