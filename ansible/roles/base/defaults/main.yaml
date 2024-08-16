@@ -8,7 +8,7 @@ logzio_token: ""
 logzio_listener: "listener.logz.io:5015"
 
 snmpd_password: "zc03snmpmonitor"
-snmpd_user: "=XOe|5tmN#ZgRRAbneT"
+snmpd_user: "XOe5tmN#ZgRRAbneT"
 
 tenable_token: ""
 tenable_group: ""
