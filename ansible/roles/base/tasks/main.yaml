@@ -32,9 +32,9 @@
 #  import_tasks: monitoring.yaml
 #  tags: infra
 
-#- name: Set the NTP servers
-#  import_tasks: ntp.yaml
-#  tags: global
+- name: Set the NTP servers
+  import_tasks: ntp.yaml
+  tags: global
 
 #- name: Apply domain authentication
 #  import_tasks: sssd.yaml
