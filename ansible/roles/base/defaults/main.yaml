@@ -7,8 +7,9 @@ ntp_02: "azzC03-AD101.{{ domain }}"
 logzio_token: ""
 logzio_listener: "listener.logz.io:5015"
 
-snmpd_password: "zc03snmpmonitor"
-snmpd_user: "XOe5tmN#ZgRRAbneT"
+snmpd_user: "zc03snmpmonitor"
+snmpd_password: "XOe5tmN#ZgRRAbneT"
+
 
 tenable_token: ""
 tenable_group: ""
