@@ -1,6 +1,9 @@
 domain: "zc03.internal"
 linux_groups: "dl_linuxadmins@{{ domain }}"
 
+ntp_01: "zC03-AD001.{{ domain }}"
+ntp_02: "azzC03-AD101.{{ domain }}"
+
 logzio_token: ""
 logzio_listener: "listener.logz.io:5015"
 
