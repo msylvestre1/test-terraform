@@ -1,1 +1,13 @@
+---
+- name: Add NTP servers
+  ansible.builtin.blockinfile:
+    path: /etc/systemd/timesyncd.conf
+    block: |
+      ntp={{ ntp_01 }} {{ ntp_02 }}
 
+- name: "Make sure timesyncd is running"
+  ansible.builtin.systemd_service:
+    name: "systemd-timesyncd"
+    daemon_reload: true
+    enabled: true
+    state: "started"
