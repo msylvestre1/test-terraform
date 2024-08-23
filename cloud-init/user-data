@@ -49,7 +49,6 @@ autoinstall:
   #========================Partitioning Scheme========================================#
   storage:
     config:
-      #Create disks
       - ptable: gpt
         path: /dev/sda
         wipe: superblock-recursive
@@ -58,8 +57,6 @@ autoinstall:
         grub_device: false
         id: disk-sda
         type: disk
-
-      #Partitioning
       - device: disk-sda
         size: 1G
         wipe: superblock
@@ -67,148 +64,135 @@ autoinstall:
         number: 1
         preserve: false
         grub_device: true
+        path: /dev/sda1
         id: part-efi
         type: partition
+      - fstype: fat32
+        volume: part-efi
+        preserve: false
+        id: format-efi
+        type: format
       - device: disk-sda
         size: 1G
         wipe: superblock
         number: 2
         preserve: false
         grub_device: false
+        path: /dev/sda2
         id: part-boot
         type: partition
-      - device: disk-sda
-        id: part_swap
-        size: 4G
-        preserve: false
-        wipe: superblock
-        number: 3
-        grub_device: false
-        type: partition
-        flag: swap
-
-      #Format partitions
-      - fstype: fat32
-        volume: part-efi
-        preserve: false
-        id: format-efi
-        type: format
       - fstype: ext4
         volume: part-boot
         preserve: false
         id: format-boot
         type: format
+      - path: /dev/sda3
+        id: part_swap
+        size: 4G
+        preserve: false
+        wipe: superblock
+        device: disk-sda
+        number: 3
+        grub_device: false
+        type: partition
+        flag: swap
       - volume: part_swap
         fstype: swap
         id: format-swap
         type: format
-
-      #LVM Section
-
-      ## LVM Physical Volumes
-      ###Physical disk 0
       - device: disk-sda
         size: -1
         wipe: superblock
         number: 4
         preserve: false
         grub_device: false
-        id: part_lvmpv00
+        path: /dev/sda4
+        id: part_lvmpv
         type: partition
-      ## LVM Volume Groups
-      ###Volume Group 00
       - name: lvm_vg00
         devices:
-          - part_lvmpv00
+          - part_lvmpv
         preserve: false
         id: lvm_vg00
         type: lvm_volgroup
-      ## LVM Logical Volumes
-      ### lv /home
-      - name: lvm_lv-home
+      - name: lv_home
         volgroup: lvm_vg00
         size: 4G
         wipe: superblock
         preserve: false
-        path: /dev/lvm_vg00/lvm_lv-home
-        id: lvm_part-home
+        path: /dev/lvm_vg00/lv_home
+        id: part_home
         type: lvm_partition
       - fstype: ext4
-        volume: lvm_part-home
+        volume: part_home
         preserve: false
         id: format-home
         type: format
-      ### lv /tmp
-      - name: lvm_lv-tmp
+      - name: lv_tmp
         volgroup: lvm_vg00
         size: 8G
         wipe: superblock
         preserve: false
-        path: /dev/lvm_vg00/lvm_lv-tmp
-        id: lvm_part-tmp
+        path: /dev/lvm_vg00/lv_tmp
+        id: part_tmp
         type: lvm_partition
       - fstype: ext4
-        volume: lvm_part-tmp
+        volume: part_tmp
         preserve: false
         id: format-tmp
         type: format
-      ### lv /var
-      - name: lvm_lv-var
+      - name: lv_var
         volgroup: lvm_vg00
         size: 15G
         wipe: superblock
         preserve: false
-        path: /dev/lvm_vg00/lvm_lv-var
-        id: lvm_part-var
+        path: /dev/lvm_vg00/lv_var
+        id: part_var
         type: lvm_partition
       - fstype: ext4
-        volume: lvm_part-var
+        volume: part_var
         preserve: false
         id: format-var
         type: format
-      ### lv /var/log
-      - name: lvm_lv-varlog
+      - name: lv_varlog
         volgroup: lvm_vg00
         size: 15G
         wipe: superblock
         preserve: false
-        path: /dev/lvm_vg00/lvm_lv-varlog
-        id: lvm_part-varlog
+        path: /dev/lvm_vg00/lv_varlog
+        id: part_varlog
         type: lvm_partition
       - fstype: ext4
-        volume: lvm_part-varlog
+        volume: part_varlog
         preserve: false
         id: format-varlog
         type: format
-      ### lv /var/log/audit
-      - name: lvm_lv-varlogaudit
+      - name: lv_varlogaudit
         volgroup: lvm_vg00
         size: 2G
         wipe: superblock
         preserve: false
-        path: /dev/lvm_vg00/lvm_lv-varlogaudit
-        id: lvm_part-varlogaudit
+        path: /dev/lvm_vg00/lv_varlogaudit
+        id: part_varlogaudit
         type: lvm_partition
       - fstype: ext4
-        volume: lvm_part-varlogaudit
+        volume: part_varlogaudit
         preserve: false
         id: format-varlogaudit
         type: format
-      ### lv /
-      - name: lvm_lv-root
+      - name: lv_root
         volgroup: lvm_vg00
         size: -1
         wipe: superblock
         preserve: false
-        path: /dev/lvm_vg00/lvm_lv-root
-        id: lvm_part-root
+        path: /dev/lvm_vg00/lv_root
+        id: part_root
         type: lvm_partition
       - fstype: ext4
-        volume: lvm_part-root
+        volume: part_root
         preserve: false
         id: format-root
         type: format
-      #-----Mounting Partitions on sda---#
       - path: /
         device: format-root
         id: mount-root
@@ -219,13 +203,13 @@ autoinstall:
         type: mount
       - path: /boot/efi
         device: format-efi
-        options: "uid=0,gid=0,umask=0077"
+        options: uid=0,gid=0,umask=0077
         id: mount-efi
         type: mount
       - path: /home
         device: format-home
         id: mount-home
-        options: "nodev,noexec,auto,nouser,async,acl"
+        options: nodev,noexec,auto,nouser,async,acl
         type: mount
       - path: /tmp
         device: format-tmp
